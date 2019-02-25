@@ -1,5 +1,5 @@
 # 《RxJava 2.x 实战》读书笔记
-> 读者：[DevMcryYu](https://github.com/DevMcryYu)
+> 读者：[DevMcryYu](https://github.com/DevMcryYu)  
 > 最后更新于：2019-02-25
 
 ## 1. RxJava 简介（2019-02-24）
@@ -36,6 +36,7 @@ RxJava 的使用通常需要三步：
 
 ### 2.2 do 操作符
 do 操作符可以给 Observable 的生命周期的各个阶段加上一系列的回调监听。
+
 | 操作符 | 用途 |
 | ------ | ------ |
 | `doOnSubscribe()`| 一旦观察者订阅了 Observable 就会调用 |
