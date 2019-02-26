@@ -1,6 +1,6 @@
 # 《RxJava 2.x 实战》读书笔记
 > 读者：[DevMcryYu](https://github.com/DevMcryYu)  
-> 最后更新于：2019-02-25
+> 最后更新于：2019-02-26
 
 ## 1. RxJava 简介（2019-02-24）
 
@@ -112,7 +112,7 @@ BehaviorSubject<String> subject = BehaviorSubject.createDefault("DefaultSubject"
 - **PublishSubject**：Observer 只接收其被订阅之后发送的数据。
 
 #### Processor
-在 RxJava 2.0 引入，它是一个接口，继承自 Subcriber、Publisher，支持背压，也是其与 Subject 的区别。
+在 RxJava 2.0 引入，它是一个接口，继承自 Subcriber、Publisher。支持背压，也是其与 Subject 的区别。
 
 ## 3. 创建操作符（2019-02-24）
 待添加
