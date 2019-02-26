@@ -93,6 +93,27 @@ Flowable 支持非阻塞的背压，同时实现 Reactive Streams 的 Publisher 
 
 > Tips：可以通过 toXXX 方法转换成 Observable、Flowable 和 Single
 
+### 2.6 Subject 和 Processor
+#### Subject
+- **AsyncSubject**：Observer 会接收其 `onComplete()` 之前的最后一个数据
+
+> Tips: `subject.onComplete()` 必须调用才会开始发射数据。
+
+- **BehaviorSubject**：Observer 会先接收其被订阅之前的最后一个数据，如果订阅之前没有发送任何数据，则会发送一个默认数据。
+
+```java
+BehaviorSubject<String> subject = BehaviorSubject.createDefault("DefaultSubject");
+```
+
+- **ReplaySubject**：发射所有来自原始 Observable 的数据给观察者，无论它们何时订阅。
+
+> Tips：将 `create()` 改成 `createWithSize(1)`，表示只缓存订阅前最后发送的一条数据。
+
+- **PublishSubject**：Observer 只接收其被订阅之后发送的数据。
+
+#### Processor
+在 RxJava 2.0 引入，它是一个接口，继承自 Subcriber、Publisher，支持背压，也是其与 Subject 的区别。
+
 ## 3. 创建操作符（2019-02-24）
 待添加
 ## 4. RxJava 的线程操作（2019-02-24）
