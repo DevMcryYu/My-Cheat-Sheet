@@ -2,7 +2,9 @@
 > 读者：[DevMcryYu](https://github.com/DevMcryYu)  
 > 最后更新于：2019-02-26
 
-## 第一章 面向对象的六大原则
+了解更多信息，详见[设计模式中文 Wiki](https://zh.wikipedia.org/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F_(%E8%AE%A1%E7%AE%97%E6%9C%BA))
+
+## 第一章 面向对象的六大原则（2019-02-25）
 
 ### 1. 单一职责原则（Single Responsibility Principle）
 
@@ -24,7 +26,26 @@
 
 ### 4. 依赖倒置原则（Dependence Inversion Principle）
 
-> 
+> 模块间的依赖通过抽象发生，实现类之间不发生直接的依赖关系，而是通过接口或抽象类产生的
+
+面向接口编程、面向抽象编程。  
+拓展：[依赖注入](https://zh.wikipedia.org/zh/%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5)
 
 ### 5. 接口隔离原则（InterfaceSegregation Principale）
+
+> 类间的依赖关系应建立在最小的接口上
+
+更直观的说法就是让客户端依赖的接口尽可能得小，从而更容易重构、更改。
+
 ### 6. 迪米特/最少知识原则（Law of Demeter/Least Knowledge Principle）
+
+> 一个对象应该对其他对象有最少的了解
+
+类与类之间的关系越密切则耦合度越大，因此调用者与依赖者没必要了解其内部的具体实现。隐藏细节才能有效降低耦合性。
+
+## 第二章 单例模式（2019-02-25）
+待整理
+## 第三章 Builder 模式（2019-02-25）
+待整理
+## 第十二章 观察者模式（2019-02-25）
+待整理
