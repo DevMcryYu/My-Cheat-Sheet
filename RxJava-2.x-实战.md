@@ -73,7 +73,7 @@ Observable<Long> observable = connectableObservable.refCount();
 `share` 操作符封装了 `publish().refCount()` 调用。可以在其源码中查看。
 
 ### 2.4 Flowable
-Flowable 支持非阻塞的背压，同时实现 Reactive Streams 的 Publisher 接口。Flowable 所有的操作符强制支持背压。
+Flowable 支持非阻塞的背压，同时实现 Reactive Streams 的 Publisher 接口。Flowable 所有的操作符强制支持背压。  
 使用 Flowable 的场景：
 - 处理以某种方式产生超过 10 KB 的元素
 - 文件读取与分析
