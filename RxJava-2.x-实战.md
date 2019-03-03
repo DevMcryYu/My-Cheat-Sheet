@@ -1,6 +1,6 @@
 # 《RxJava 2.x 实战》读书笔记
 > 读者：[DevMcryYu](https://github.com/DevMcryYu)  
-> 最后更新于：2019-02-26
+> 最后更新于：2019-02-28
 
 ## 1. RxJava 简介（2019-02-24）
 
@@ -95,6 +95,7 @@ Flowable 支持非阻塞的背压，同时实现 Reactive Streams 的 Publisher 
 
 ### 2.6 Subject 和 Processor
 #### Subject
+（**Subject 并非线程安全的，使用时需谨慎。**）
 - **AsyncSubject**：Observer 会接收其 `onComplete()` 之前的最后一个数据
 
 > Tips: `subject.onComplete()` 必须调用才会开始发射数据。
@@ -115,7 +116,21 @@ BehaviorSubject<String> subject = BehaviorSubject.createDefault("DefaultSubject"
 在 RxJava 2.0 引入，它是一个接口，继承自 Subcriber、Publisher。支持背压，也是其与 Subject 的区别。
 
 ## 3. 创建操作符（2019-02-24）
-待添加
+
+| 操作符 | 用途 |
+| ------ | ------ |
+| `just()` | 将一个或多个对象转换成发射这些对象的一个 Observable |
+|  `from()` | 将一个 Iterable、一个 Future 或者一个数组转换成一个 Observable |
+| `create()` | 使用一个函数从头创建一个 Observable |
+| `defer()` | 只有当订阅者订阅时才创建 Observable，为每个订阅创建一个新的 Observable |
+| `range()` | 创建一个发射指定范围的整数序列的 Observable |
+| `interval()` | 创建一个按照给定的时间间隔发射整数序列的 Observable |
+| `timer()` | 创建一个在给定延时之后发射单个数据的 Observable |
+| `empty()` | 创建一个什么都不做直接通知完成的 Observable |
+| `error()` | 创建一个什么都不做直接通知错误的 Observable |
+| `nerver()` | 创建一个不发射任何数据的 Observable |
+
+
 ## 4. RxJava 的线程操作（2019-02-24）
 待添加
 ## 5. 变换操作符和过滤操作符（2019-02-24）
