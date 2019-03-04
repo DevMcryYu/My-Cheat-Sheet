@@ -158,9 +158,112 @@ while(current != null){
 - 排队等待问题，进程调度问题
 - Android 中消息队列循环
 
+## 数组和广义表
+**多维数组**：
+[参考资料](https://www.cnblogs.com/gaobig/p/6126776.html)
+
+**矩阵**：
+三角、对称、对角矩阵的压缩存储：
+[参考资料](https://blog.csdn.net/qq_29721419/article/details/70482392)
+稀疏矩阵的压缩存储：
+- 稀疏矩阵三元组单链表
+- 稀疏矩阵行列单链表
+- 稀疏矩阵十字链表
+
+**广义表**：
+**定义**：广义表是 n（n ≥ 0）个数据元素 а0，a1，···，an-1 组成的有限序列。其中 ai（0 ≤ i ≤ n）是原子或子广义表。
+> 原子：不可分解的数据元素
 
 ## 树
+定义：由 n 个结点组成的有限集合且:
+- 有一个特殊的结点称为**根**（Root）结点，它只有后继，没有前驱。
+- 除根节点之外的其他结点分为 m 个互不相交的集合。每个集合也具有树结构，称为根的**子树**（Subtree）
+
+**度**（Degree）：结点所拥有的子树的棵树。度为 0 的结点称为叶子。
+**层次**（Level）：根的层次为 1，其他结点依次是其服务节点的层次加 1；
+**高度**（Depth）：树中结点的最大层次数。
+
+### 二叉树
+由一个**根结点**和两颗互不相交、分别称为**左、右子树**的子二叉树构成。
+
+> 高度为 h 的二叉树中，最多有 2^n-1 个结点
+
+#### 遍历：
+- 先根遍历：root -> left -> right
+- 中根遍历：left -> root -> right
+- 后根遍历：left -> right -> root
+
+```Java
+// 先根递归遍历 中根、后根大同小异
+public void preorder(){
+  preorder(this.root);
+  System.out.println();
+}
+public void preorder(BNode<T> p){
+  if (p != null) {
+    System.out.println(p.data.toString());
+    preorder(p.left);
+    preorder(p.right);
+  }
+}
+
+// 先根非递归遍历
+public void preorder(){
+  LinkedStack<BNode<T>> stack = new LinkedStack<>();
+  BNode<T> p = this.root;
+  while(p != null || !stack.isEmpty()){
+    if (p != null) {
+      System.out.print(p.data.toString());
+      stack.push(p);
+      p = p.left;
+    } else {
+      System.out.print("∧");
+      p = stack.pop();
+      p = p.right;
+    }
+    System.out.println();
+  }
+}
+
+```
+
+#### Huffman 树
+资料来源[百度百科](https://baike.baidu.com/link?url=xF-oJ8V9IUVKYCchDDjkKqnEx5K1re8LTarEa0OGoewVpDgkJSf_pRw9n4DuuzRwAoiX46XshHqdQN2f5BgZ3fvQ5FaZPG_cVddxyjNs1uNPZMuX9zLP0Tjp-0dwELUt)。
+
 ## 图
+**图**（Graph）是由**顶点**（Vertex）集合及顶点间的关系集合组成的一种数据结构。顶点之间的关系称为**边**（Edge）
+- 无向图
+- 有向图
+- 完全图：边数达到最大值
+- 带权图：边带有**权值**（Weight），又称**网络**（Network）
+
+### 图的表示
+- 邻接矩阵：二维数组存储
+- 邻接表：链式存储行的后继。
+- 邻接多重表：链式存储行、列的后继，即矩阵十字链表
+
+### 图的遍历
+#### 深度优先搜索（DFS）
+详见[中文维基](https://zh.wikipedia.org/wiki/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2)
+#### 广度优先搜索（BFS）
+详见[中文维基](https://zh.wikipedia.org/wiki/%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2)
+
+### 最小生成树
+**定义**：最小生成树是一副连通加权无向图中一棵权值最小的生成树，是最小权重生成树的简称
+**MST 性质**：假设 N = （V，{ E }）是一个连通网，U 是顶点集 V 的一个非空子集。若（u , v ）是一条具有最小权值（代价）的边，其中u ∈ U， v∈ V - U，则必存在一棵包含边（u，v）的最小生成树。
+
+#### 最小生成树的构造算法
+[Prim 算法](https://zh.wikipedia.org/wiki/%E6%99%AE%E6%9E%97%E5%A7%86%E7%AE%97%E6%B3%95)：逐步求解，从图中某个顶点开始，每步选择一条满足 MST 性质且权值最小的边来扩充最小生成树。
+
+[Kruskal 算法](https://zh.wikipedia.org/wiki/%E5%85%8B%E9%B2%81%E6%96%AF%E5%85%8B%E5%B0%94%E6%BC%94%E7%AE%97%E6%B3%95)：从权值最小的边开始，如果这条边连接的两个节点于图中不在同一个连通分量中，则添加这条边到图中，直至图中所有的节点都在同一个连通分量中。
+
+### 最短路径
+#### 单源最短路径
+[Dijkstra 算法](https://zh.wikipedia.org/wiki/%E6%88%B4%E5%85%8B%E6%96%AF%E7%89%B9%E6%8B%89%E7%AE%97%E6%B3%95)：逐步求解，每步将一条最短路径扩充一条边形成下一条最短路径；并将其他路径替换为更短的。
+
+#### 顶点间最短路径
+[Flyod 算法](https://zh.wikipedia.org/wiki/Floyd-Warshall%E7%AE%97%E6%B3%95)
+
 ## 查找算法
 ## 排序算法
 
