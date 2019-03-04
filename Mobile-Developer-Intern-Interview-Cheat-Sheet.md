@@ -320,8 +320,24 @@ return -1;
 - [结点大小平衡树]
 
 ## 排序算法
+**稳定性**：不稳定排序算法可能会在相等的键值中改变纪录的相对次序，但是稳定排序算法从来不会如此。
 ### 插入排序
+对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。
 #### 直接插入排序
+```Java
+public void insertionSort(int[] array) {
+		for (int i = 1; i < array.length; i++) {
+			int key = array[i];
+			int j = i - 1;
+			while (j >= 0 && array[j] > key) {
+				array[j + 1] = array[j];
+				j--;
+			}
+			array[j + 1] = key;
+		}
+	}
+```
+
 #### 希尔排序
 ### 交换排序
 #### 冒泡排序
@@ -330,6 +346,7 @@ return -1;
 #### 直接选择排序
 #### 堆排序
 ### 归并排序
+
 ----
 
 # Android 篇
