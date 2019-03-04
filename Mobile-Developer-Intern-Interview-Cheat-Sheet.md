@@ -321,10 +321,13 @@ return -1;
 
 ## 排序算法
 **稳定性**：不稳定排序算法可能会在相等的键值中改变纪录的相对次序，但是稳定排序算法从来不会如此。
+
 ### 插入排序
 对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。
+
 #### [**直接插入排序**](https://zh.wikipedia.org/wiki/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95)  
 ![直接插入排序动画演示](https://upload.wikimedia.org/wikipedia/commons/2/25/Insertion_sort_animation.gif)
+
 ```Java
 public void insertionSort(int[] array) {
 		for (int i = 1; i < array.length; i++) {
@@ -341,7 +344,9 @@ public void insertionSort(int[] array) {
 
 #### [**希尔排序**](https://zh.wikipedia.org/wiki/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F)  
 ![希尔排序动画演示](https://upload.wikimedia.org/wikipedia/commons/d/d8/Sorting_shellsort_anim.gif)
+
 又称递减增量排序算法，是插入排序的一种更高效的改进版本。希尔排序是非稳定排序算法。
+
 ```Java
 public static void shellSort(int[] array) {
     int number = array.length / 2;
@@ -409,11 +414,13 @@ private static void quickSort(int[] keys,int begin,int end){
   }
 }
 ```
+
 ### 选择排序
 #### [**直接选择排序**](https://zh.wikipedia.org/wiki/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F)
 ![直接选择排序动画演示](https://upload.wikimedia.org/wikipedia/commons/b/b0/Selection_sort_animation.gif)
 
 首先在未排序序列中找到最小（大）元素，存放到排序序列的起始位置，然后，再从剩余未排序元素中继续寻找最小（大）元素，然后放到已排序序列的末尾。以此类推，直到所有元素均排序完毕。
+
 ```Java
 public static void selectionSort(int[] arr) {
 	    int min, temp;
@@ -435,9 +442,12 @@ public static void selectionSort(int[] arr) {
         }
     }
 ```
+
 #### [**堆排序**](https://zh.wikipedia.org/wiki/%E5%A0%86%E6%8E%92%E5%BA%8F)
 ![堆排序动画演示](https://upload.wikimedia.org/wikipedia/commons/1/1b/Sorting_heapsort_anim.gif)
+
 利用堆这种数据结构所设计的一种排序算法。堆是一个近似完全二叉树的结构，并同时满足堆积的性质：即子节点的键值或索引总是小于（或者大于）它的父节点。
+
 ### [**归并排序**](https://zh.wikipedia.org/wiki/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F)
 ![归并排序动画演示](https://upload.wikimedia.org/wikipedia/commons/c/c5/Merge_sort_animation2.gif)
 
