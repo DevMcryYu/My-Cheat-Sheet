@@ -323,7 +323,8 @@ return -1;
 **稳定性**：不稳定排序算法可能会在相等的键值中改变纪录的相对次序，但是稳定排序算法从来不会如此。
 ### 插入排序
 对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。
-#### 直接插入排序
+#### [**直接插入排序**](https://zh.wikipedia.org/wiki/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95)  
+![直接插入排序动画演示](https://zh.wikipedia.org/wiki/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F#/media/File:Insertion-sort-example-300px.gif)
 ```Java
 public void insertionSort(int[] array) {
 		for (int i = 1; i < array.length; i++) {
@@ -338,15 +339,130 @@ public void insertionSort(int[] array) {
 	}
 ```
 
-#### 希尔排序
-### 交换排序
-#### 冒泡排序
-#### 快速排序
-### 选择排序
-#### 直接选择排序
-#### 堆排序
-### 归并排序
+#### [**希尔排序**](https://zh.wikipedia.org/wiki/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F)  
+![希尔排序动画演示](https://zh.wikipedia.org/wiki/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F#/media/File:Sorting_shellsort_anim.gif)
+又称递减增量排序算法，是插入排序的一种更高效的改进版本。希尔排序是非稳定排序算法。
+```Java
+public static void shellSort(int[] array) {
+    int number = array.length / 2;
+    int i;
+    int j;
+    int temp;
+    while (number >= 1) {
+        for (i = number; i < array.length; i++) {
+            temp = array[i];
+            j = i - number;
+            while (j >= 0 && array[j] < temp) { //需要注意的是，这里array[j] < temp将会使数组从大到小排序。
+                array[j + number] = array[j];
+                j = j - number;
+            }
+            array[j + number] = temp;
+        }
+        number = number / 2;
+    }
+}
+```
 
+### 交换排序
+#### [**冒泡排序**](https://zh.wikipedia.org/wiki/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F)  
+![冒泡排序动画演示](https://zh.wikipedia.org/wiki/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F#/media/File:Bubble_sort_animation.gif)
+
+```Java
+public static void bubbleSort(int[] arr) {
+    boolean exchange = true;
+    for (int i = 1 ;i < keys.length && exchange ;i++) {
+      exchange = false;
+      for (int j = 0 ; j < keys.length ; j++) {
+        if (keys[j] > keys[j+1]) {
+          int temp = keys[j];
+          keys[j] = keys[i];
+          keys[i] = temp;
+          exchange = true;
+        }
+      }
+    }
+  }
+```
+
+#### [**快速排序**](https://zh.wikipedia.org/wiki/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F)  
+![快速排序动画演示](https://zh.wikipedia.org/wiki/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F#/media/File:Sorting_quicksort_anim.gif)
+
+```Java
+//递归实现
+private static void quickSort(int[] keys,int begin,int end){
+  if (begin >= 0 && begin < keys.length && end >= 0 && end < keys.length && begin < end) {
+    int i = begin , j = end;
+    int vot = keys[i];
+    while(i!=j){
+      while(i<j && keys[i] >= vot)
+        j--;
+      if (i < j)
+        keys[i++] = keys[j];
+      while(i < j && keys[i] <= vot)
+        i++;
+      if (i < j)
+      keys[j--]=keys[i];
+    }
+    keys[i] = vot;
+    quickSort(keys,begin,j-1);
+    quickSort(keys,i+1,end);
+  }
+}
+```
+### 选择排序
+#### [**直接选择排序**](https://zh.wikipedia.org/wiki/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F)
+![直接选择排序动画演示](https://zh.wikipedia.org/wiki/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F#/media/File:Selection_sort_animation.gif)
+
+首先在未排序序列中找到最小（大）元素，存放到排序序列的起始位置，然后，再从剩余未排序元素中继续寻找最小（大）元素，然后放到已排序序列的末尾。以此类推，直到所有元素均排序完毕。
+```Java
+public static void selectionSort(int[] arr) {
+	    int min, temp;
+        for (int i = 0; i < arr.length; i++) {
+            // 初始化未排序序列中最小数据数组下标
+            min = i;
+
+            for (int j = i+1; j < arr.length; j++) {
+                // 在未排序元素中继续寻找最小元素，并保存其下标
+                if (arr[j] < arr[min]) {
+                    min = j;
+                }
+            }
+
+            // 将未排序列中最小元素放到已排序列末尾
+            temp = arr[min];
+            arr[min] = arr[i];
+            arr[i] = temp;
+        }
+    }
+```
+#### [**堆排序**](https://zh.wikipedia.org/wiki/%E5%A0%86%E6%8E%92%E5%BA%8F)
+![堆排序动画演示](https://zh.wikipedia.org/wiki/%E5%A0%86%E6%8E%92%E5%BA%8F#/media/File:Sorting_heapsort_anim.gif)
+利用堆这种数据结构所设计的一种排序算法。堆是一个近似完全二叉树的结构，并同时满足堆积的性质：即子节点的键值或索引总是小于（或者大于）它的父节点。
+### [**归并排序**](https://zh.wikipedia.org/wiki/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F)
+![归并排序动画演示](https://zh.wikipedia.org/wiki/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F#/media/File:Merge_sort_animation2.gif)
+
+```Java
+static void merge_sort_recursive(int[] arr, int[] result, int start, int end) {
+	if (start >= end)
+		return;
+	int len = end - start, mid = (len >> 1) + start;
+	int start1 = start, end1 = mid;
+	int start2 = mid + 1, end2 = end;
+	merge_sort_recursive(arr, result, start1, end1);
+	merge_sort_recursive(arr, result, start2, end2);
+	int k = start;
+	while (start1 <= end1 && start2 <= end2)
+		result[k++] = arr[start1] < arr[start2] ? arr[start1++] : arr[start2++];
+	while (start1 <= end1)
+		result[k++] = arr[start1++];
+	while (start2 <= end2)
+		result[k++] = arr[start2++];
+	for (k = start; k <= end; k++)
+		arr[k] = result[k];
+}
+```
+
+### 横向对比
 ![](https://github.com/DevMcryYu/My-Cheat-Sheet/blob/master/Image/MDIIC-sort.png)
 
 ----
