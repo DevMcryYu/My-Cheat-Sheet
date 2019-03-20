@@ -399,7 +399,7 @@ private static void quickSort(int[] keys,int begin,int end){
     int i = begin , j = end;
     int vot = keys[i];
     while(i!=j){
-      while(i<j && keys[i] >= vot)
+      while(i<j && keys[j] >= vot)
         j--;
       if (i < j)
         keys[i++] = keys[j];
