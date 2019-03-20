@@ -1,6 +1,6 @@
 # 《RxJava 2.x 实战》读书笔记
 > 读者：[DevMcryYu](https://github.com/DevMcryYu)  
-> 最后更新于：2019-02-28
+> 最后更新于：2019-03-20
 
 ## 1. RxJava 简介（2019-02-24）
 
@@ -120,7 +120,7 @@ BehaviorSubject<String> subject = BehaviorSubject.createDefault("DefaultSubject"
 | 操作符 | 用途 |
 | ------ | ------ |
 | `just()` | 将一个或多个对象转换成发射这些对象的一个 Observable |
-|  `from()` | 将一个 Iterable、一个 Future 或者一个数组转换成一个 Observable |
+| `from()` | 将一个 Iterable、一个 Future 或者一个数组转换成一个 Observable |
 | `create()` | 使用一个函数从头创建一个 Observable |
 | `defer()` | 只有当订阅者订阅时才创建 Observable，为每个订阅创建一个新的 Observable |
 | `range()` | 创建一个发射指定范围的整数序列的 Observable |
@@ -132,6 +132,26 @@ BehaviorSubject<String> subject = BehaviorSubject.createDefault("DefaultSubject"
 
 
 ## 4. RxJava 的线程操作（2019-02-24）
-待添加
+### Scheduler
+RxJava 对线程控制器的一个抽象，从而使用多线程来操作 RxJava。
+| Scheduler | 作用 |
+| ------ | ------|
+| single | 使用定长为 1 的线程池（`new Scheduled Thread Pool(1)`），重复利用这个线程 |
+| newThread | 每次都启用新线程，并在新线程中执行操作 |
+| computation | 使用的固定的线程池（Fixed Scheduler Pool），大小为 CPU 核数，适用于 CPU 密集型计算 |
+| io | 适合 I/O 操作（读写文件、读取数据库、网络信息交互等）所使用的 Scheduler。行为模式和 newThread() 差不多，区别在于 io() 的内部实现是用一个无数量上限的线程池，可以重用空闲线程，因此多数情况下，io() 比 newThread() 更有效率 |
+| trampoline | 直接在当前线程运行，如果当前进程有其他任务正在执行，则会先暂停其他任务 |
+| Schedulers.from | 将 java.util.concurrent.Executor 转换成一个调度器实例，即可以自定义一个 Executor 来作为调度器 |
+
+### 线程调度
+- `subscribeOn`：指定对数据的处理运行在特定的 Scheduler 上。多次执行只有第一次起作用。（RxJava 的链式操作中，数据的处理是自下而上的）
+- `observeOn`：指定下游操作运行在特定的 Scheduler 上。多次执行则每次都会起作用。
+
+### TestScheduler
+一种特殊的非线程安全的专门用于测试的调度器，只有被调用了时间才会继续。因此允许手动推进虚拟时间。
+- `advanceTimeTo`：将调度器的时间移动到特定时刻。
+- `advanceTimeBy`：将调度器的时间按特定时刻移动。
+- `TriggerActions`：执行计划中但是未启动的任务。
+
 ## 5. 变换操作符和过滤操作符（2019-02-24）
-待添加
+### 变换操作符
