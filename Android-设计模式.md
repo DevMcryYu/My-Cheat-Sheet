@@ -50,102 +50,206 @@
 **定义**：确保某一个类只有一个实例，且自行实例化并向整个系统提供这个实例。  
 **场景**：不需要创建多个对象、创建对象消耗的资源过多时。
 
-### 单例的实现方式
+### 单例模式的实现
 - **懒汉方式**
+
 ```java
 public class Singleton {
-  private static Singleton instance;
+    private static Singleton instance;
 
-  private Singleton() {
-    // do something
-  }
+    private Singleton() {
+      // do something
+    }
 
-  public static synchronized getInstance() {
-    if (instance == null)
-      instance = new Singleton();
-    return instance;
-  }
+    public static synchronized getInstance() {
+        if (instance == null)
+            instance = new Singleton();
+        return instance;
+    }
 }
 ```
 懒汉方式下仅在第一次调用 `getInstance()` 方法时进行初始化。
 
 - **饿汉方式**
+
 ```java
 public class Singleton {
-  private static final Singleton instance = new Singleton();
+    private static final Singleton instance = new Singleton();
 
-  private Singleton() {
-    // do something
-  }
+    private Singleton() {
+      // do something
+    }
 
-  public static Singleton getInstance() {
-    return instance;
-  }
+    public static Singleton getInstance() {
+        return instance;
+    }
 }
 ```
 饿汉模式下则在声明静态对象时就已经初始化。
 
 - **Double Check Lock（DCL）方式**
+
 ```java
 public class Singleton {
-  private volatile static Singleton instance = null;
+    private volatile static Singleton instance = null;
 
-  private Singleton() {
+    private Singleton() {
     // do something
-  }
-
-  public static Singleton getInstance() {
-    if (instance == null){
-      synchronized (Singleton.class)
-        if (instance == null)
-          instance = new Singleton();
     }
-    return instance;
-  }
+
+    public static Singleton getInstance() {
+        if (instance == null){
+            synchronized (Singleton.class)
+                if (instance == null)
+                    instance = new Singleton();
+        }
+        return instance;
+    }
 }
 ```
 DCL 方式实现的单例对 instance 进行两次判空，第一次是为了避免不必要的同步，第二次的判空才是为了在 null 的情况下创建实例。
+
 - **静态内部类方式**
+
 ```java
 public class Singleton {
-  private Singleton() {
-    // do something
-  }
+    private Singleton() {
+      // do something
+    }
 
-  public static Singleton getInstance() {
-    return SingletonHolder.intance;
-  }
+    public static Singleton getInstance() {
+      return SingletonHolder.intance;
+    }
 
-  private static class SingletonHolder {
-    private static final Singleton instance = new Singleton();
-  }
+    private static class SingletonHolder {
+      private static final Singleton instance = new Singleton();
+    }
 }
 ```
 第一次调用 `getInstance()` 时开始初始化，从而使虚拟机加载 SingletonHolder 类，这种方式不仅确保线程安全，也能够保证单例对象的唯一性，延迟了单例的实例化。所以是推荐使用的单例模式。
+
 - **枚举方式**
+
 ```java
 public enum SingltonEnum {
-  INSTACNE;
-  public void doSomething() {
-    // do somethinga
-  }
+    INSTACNE;
+    public void doSomething() {
+      // do somethinga
+    }
 }
 ```
 枚举单例最大优点是写法简单，而且默认枚举实例的创建是线程安全的。上述其它的单例模式在反序列化时会出现重新创建实例的情况。如果要避免这样的情况发生，那么必须加上如下方法：
 ```java
-  private Object readResolve() throws ObjectStreamException {
-    return instance;
-  }
+    private Object readResolve() throws ObjectStreamException {
+        return instance;
+    }
 ```
 而枚举单例则不存在这个问题。
-- **使用容器实现**
+
+- **使用容器实现**  
+
 通过将多种单例类型注入到一个统一的管理类中，在使用时根据 key 获取对象对应类型的对象。从而管理多种类型的单例，还可以统一接口进行操作。代码省略。
 
 ### Android 源码中的运用
 使用 `LayoutInflater.from(context)` 方法获取 LayoutInflater 服务  
 
 ## 第三章 Builder 模式
-待整理
+> 👍：良好的封装性、Builder 独立，因此容易拓展  
+> 👎：会产生多余的 Builder 对象，消耗内存  
+
+**定义**：将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。
+**场景**：相同的方法，不同的执行顺序产生不同事件结果时；初始化一个参数很多且大多参数带有默认值的对象时。通常作为配置类的构建器，将配置的构建和表示分离开来。
+
+### Builder 模式的实现
+```java
+public abstract class Computer {
+    protected String mBoard;
+    protected String mDisplay;
+    protected String mOS;
+
+    protected Computer() {}
+
+    public void setBoard(String board) {
+        mBoard = board;
+    }
+
+    public void setDisplay(String display) {
+        mDisplay = display;
+    }
+
+    public abstract void setOS();
+
+    @Override
+    public String toString() {
+        // 省略
+    }
+}
+```
+```java
+public class Macbook extends Computer {
+
+    protected Macbook() {}
+
+    @Override
+    public void setOS() {
+        mOS = "Mac OS X";
+    }
+}
+```
+```java
+public abstract class Builder {
+    public abstract Builder buildBoard(String board);
+
+    public abstract Builder buildDisplay(String display);
+
+    public abstract Builder buildOS();
+
+    public abstract Computer create();
+}
+```
+```java
+public class MacbookBuilder extends Builder {
+    private Computer mComputer = new Macbook();
+
+    @Override
+    public Builder buildBoard(String board) {
+        mComputer.setBoard(board);
+        return this;
+    }
+
+    @Override
+    public Builder buildDisplay(String display) {
+        mComputer.setDisplay(display);
+        return this;
+    }
+
+    @Override
+    public Builder buildOS() {
+        mComputer.setOS();
+        return this;
+    }
+
+    @Override
+    public Computer create() {
+        return mComputer;
+    }
+}
+```
+```java
+public class Test {
+    public static void main(String[] args) {
+        Builder builder = new MacbookBuilder()
+                .buildBoard("英特尔主板")
+                .buildDisplay("Retina 显示器")
+                .buildOS();
+        Computer computer = builder.create();
+    }
+}
+```
+实际开发中 Builder 通常为链式调用，即每个 setter 方法都返回自身，这样结构更加简单。  
+
+### Android 源码中的 Builder 模式
+使用 AlertDialog.Builder 来构建复杂的 AlertDialog 对象。
 ## 第四章 原型模式
 待整理
 ## 第五章 工厂方法模式
