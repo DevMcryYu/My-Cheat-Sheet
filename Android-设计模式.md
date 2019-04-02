@@ -1,10 +1,10 @@
 # 《Android 源码设计模式-解析与实战》读书笔记
 > 读者：[DevMcryYu](https://github.com/DevMcryYu)  
-> 最后更新于：2019-02-26
+> 最后更新于：2019-04-02
 
 了解更多信息，详见[设计模式中文 Wiki](https://zh.wikipedia.org/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F_(%E8%AE%A1%E7%AE%97%E6%9C%BA))
 
-## 第一章 面向对象的六大原则（2019-02-25）
+## 第一章 面向对象的六大原则
 
 ### 1. 单一职责原则（Single Responsibility Principle）
 
@@ -43,9 +43,112 @@
 
 类与类之间的关系越密切则耦合度越大，因此调用者与依赖者没必要了解其内部的具体实现。隐藏细节才能有效降低耦合性。
 
-## 第二章 单例模式（2019-02-25）
+## 第二章 单例模式
+> 👍：减少内存开支、性能开销；避免对资源的多重占用。
+> 👎：一般没有接口，拓展困难；单例如果持有 Context 容易引发内存泄漏，此时需要注意传递给其的 Context 最好是 Application Context。  
+
+**定义**：确保某一个类只有一个实例，且自行实例化并向整个系统提供这个实例。
+**场景**：不需要创建多个对象、创建对象消耗的资源过多时。
+
+### 单例的实现方式
+- **懒汉方式**
+```java
+public class Singleton {
+  private static Singleton instance;
+
+  private Singleton() {
+    // do something
+  }
+
+  public static synchronized getInstance() {
+    if (instance == null)
+      instance = new Singleton();
+    return instance;
+  }
+}
+```
+懒汉方式下仅在第一次调用 `getInstance()` 方法时进行初始化。
+
+- **饿汉方式**
+```java
+public class Singleton {
+  private static final Singleton instance = new Singleton();
+
+  private Singleton() {
+    // do something
+  }
+
+  public static Singleton getInstance() {
+    return instance;
+  }
+}
+```
+饿汉模式下则在声明静态对象时就已经初始化。
+
+- **Double Check Lock（DCL）方式**
+```java
+public class Singleton {
+  private volatile static Singleton instance = null;
+
+  private Singleton() {
+    // do something
+  }
+
+  public static Singleton getInstance() {
+    if (instance == null){
+      synchronized (Singleton.class)
+        if (instance == null)
+          instance = new Singleton();
+    }
+    return instance;
+  }
+}
+```
+DCL 方式实现的单例对 instance 进行两次判空，第一次是为了避免不必要的同步，第二次的判空才是为了在 null 的情况下创建实例。
+- **静态内部类方式**
+```java
+public class Singleton {
+  private Singleton() {
+    // do something
+  }
+
+  public static Singleton getInstance() {
+    return SingletonHolder.intance;
+  }
+
+  private static class SingletonHolder {
+    private static final Singleton instance = new Singleton();
+  }
+}
+```
+第一次调用 `getInstance()` 时开始初始化，从而使虚拟机加载 SingletonHolder 类，这种方式不仅确保线程安全，也能够保证单例对象的唯一性，延迟了单例的实例化。所以是推荐使用的单例模式。
+- **枚举方式**
+```java
+public enum SingltonEnum {
+  INSTACNE;
+  public void doSomething() {
+    // do somethinga
+  }
+}
+```
+枚举单例最大优点是写法简单，而且默认枚举实例的创建是线程安全的。上述其它的单例模式在反序列化时会出现重新创建实例的情况。如果要避免这样的情况发生，那么必须加上如下方法：
+```java
+  private Object readResolve() throws ObjectStreamException {
+    return instance;
+  }
+```
+而枚举单例则不存在这个问题。
+- **使用容器实现**
+通过将多种单例类型注入到一个统一的管理类中，在使用时根据 key 获取对象对应类型的对象。从而管理多种类型的单例，还可以统一接口进行操作。代码省略。
+
+### Android 源码中的运用
+使用 `LayoutInflater.from(context)` 方法获取 LayoutInflater 服务  
+
+## 第三章 Builder 模式
 待整理
-## 第三章 Builder 模式（2019-02-25）
+## 第四章 原型模式
 待整理
-## 第十二章 观察者模式（2019-02-25）
+## 第五章 工厂方法模式
+待整理
+## 第十二章 观察者模式
 待整理

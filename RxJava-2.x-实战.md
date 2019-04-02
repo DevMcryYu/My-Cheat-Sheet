@@ -153,5 +153,15 @@ RxJava 对线程控制器的一个抽象，从而使用多线程来操作 RxJava
 - `advanceTimeBy`：将调度器的时间按特定时刻移动。
 - `TriggerActions`：执行计划中但是未启动的任务。
 
-## 5. 变换操作符和过滤操作符（2019-02-24）
+## 5. 变换操作符和过滤操作符（2019-03-20）
 ### 变换操作符
+| 操作符 | 用途 |
+| ------ | ------ |
+| `map()` | 对序列的每一项都用一个函数来变换 Observable 发射的数据序列 |
+| `flatMap()`、`concatMap()`、`flatMapIterable()` | 将 Observable 发射的数据集合变换为 Observables 集合，然后将这些 Observable 发射的数据平坦化的放进一个单独的 Observable 中 |
+| `switchMap()` | 将 Observable 发射的数据集合变换为 Observables 集合，然后只发送这些 Observables 最近发射过的数据 |
+| `scan()` | 对 Observable 发射的每一项数据应用一个函数，然后按照顺序依次发射每个值 |
+| `groupBy()` | 将 Observable 拆分成 Observable 集合，将原始数据按 Key 分组，按组发送不同数据 |
+| `buffer()` | 定期从 Observable 收集数据到一个集合，然后把这些数据集合打包发射 |
+| `window()` | 定期将来自 Observable 的数据拆分成一些 Observable 窗口，然后发射这些窗口 |
+| `cast()` | 在发射之前强制将 Observable 发射的所有数据转换为指定类型 |
