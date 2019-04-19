@@ -4,6 +4,8 @@
 
 了解更多信息，详见[设计模式中文 Wiki](https://zh.wikipedia.org/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F_(%E8%AE%A1%E7%AE%97%E6%9C%BA))
 
+[TOC]
+
 ## 第一章 面向对象的六大原则
 
 ### 1. 单一职责原则（Single Responsibility Principle）
