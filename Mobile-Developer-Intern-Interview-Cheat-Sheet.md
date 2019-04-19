@@ -91,9 +91,19 @@
 ![](https://github.com/DevMcryYu/My-Cheat-Sheet/blob/master/Image/java-thread.png)
 
 ## 多线程的实现：  
-- 继承 Thread
-- 实现 `Runnable` 接口
-- 实现 `Callable` 接口
+- 继承 Thread  
+  - 定义 Thread 类的子类，并重写该类的 `run()` 方法，该 `run()` 方法的方法体就代表了线程要完成的任务。因此把 `run()` 方法称为执行体。
+  - 创建 Thread 子类的实例，即创建了线程对象。
+  - 调用线程对象的 `start()` 方法来启动该线程。
+- 实现 `Runnable` 接口  
+  - 定义 Runnable 接口的实现类，并重写该接口的 `run()` 方法，该 `run()` 方法的方法体同样是该线程的线程执行体。
+  - 创建 Runnable 实现类的实例，并依此实例作为 Thread 的 target 来创建 Thread 对象，该 Thread 对象才是真正的线程对象。
+  - 调用线程对象的 `start()` 方法来启动该线程。
+- 实现 `Callable` 接口  
+  - 创建 Callable 接口的实现类，并实现 `call()` 方法，该 `call()` 方法将作为线程执行体，并且有返回值。
+  - 创建 Callable 实现类的实例，使用 FutureTask 类来包装 Callable 对象，该 FutureTask 对象封装了该 Callable 对象的 `call()` 方法的返回值。
+  - 使用 FutureTask 对象作为 Thread 对象的 target 创建并启动新线程。
+  - 调用 FutureTask 对象的 `get()` 方法来获得子线程执行结束后的返回值。
 - 线程池 ThreadPool
 
 ----
