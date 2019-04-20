@@ -419,7 +419,7 @@ public static void bubbleSort(int[] arr) {
     boolean exchange = true;
     for (int i = 1 ;i < keys.length && exchange ;i++) {
       exchange = false;
-      for (int j = 0 ; j < keys.length ; j++) {
+      for (int j = 0 ; j < keys.length - i ; j++) {
         if (keys[j] > keys[j+1]) {
           int temp = keys[j];
           keys[j] = keys[i];
